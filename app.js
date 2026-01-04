@@ -7,7 +7,22 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// import Sequelize instance to sync models
+const { sequelize } = require('./models');
+
 var app = express();
+
+//  IIFE to sync and authenticate DB
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+    await sequelize.sync(); // Sync all defined models to the DB
+    console.log('All models were synchronized successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+})();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
