@@ -2,7 +2,7 @@
 
 ## Created By
 
-- Name:
+- Name: Dragana Begojev
 - Date Completed:
 
 ---
@@ -11,7 +11,7 @@
 
 _List all the AI tools you utilized to complete the project._
 
-- _(AI Tool One)_
+- _GitHub Copilot_ 
 - _(AI Tool Two)_
 - _(AI Tool Three)_
 
