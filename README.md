@@ -69,6 +69,8 @@ _What were the downsides, limitations, or challenges when relying on AI during t
 - Validation and routing logic were not always aligned with project specifications.
 - Still required strong understanding of Express, Sequelize, and Pug to identify and fix issues.
 
+---
+
 ## Reflection
 
 This project demonstrated that AI coding assistants are most effective when used iteratively and with clear, explicit instructions. While AI accelerated development, critical thinking and a solid understanding of full-stack JavaScript concepts were essential to successfully complete the project and meet all requirements.
