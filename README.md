@@ -22,13 +22,13 @@ _List all the AI tools you utilized to complete the project._
 _Describe what parts of the project went smoothly or turned out well. This could include specific features, code organization, approaches to prompts or workflow habits._
 
 - Sequelize models (Book.js and Patron.js) were generated quickly and placed in the correct project structure.
-- The database sync and authentication using an IIFE worked as expected once configured.
-- Global error handling was successfully implemented and tested with both 404 and 500 errors.
-- Set up the Patron Routes and Views was completed smoothly:
-    - Routes, controllers, and views were generated correctly.
-    - Validation and form handling worked as expected.
-    - Despite being nearly identical to the Books step, this implementation required minimal manual fixes.
-- Search and Pagination was implemented correctly using Sequelize operators and query parameters.
+- Database synchronization and authentication using an IIFE worked as expected once properly configured.
+- Global error handling was successfully implemented and tested for both 404 and 500 errors.
+- The "Set up the Patron Routes and Views" step was completed smoothly:
+  - Routes, controllers, and views were generated correctly.
+  - Validation and form handling worked as expected.
+  - Although this step was nearly identical to "Set up the Book Routes and Views", which caused multiple issues, this implementation required minimal manual fixes. This was likely due to clearer instructions and lessons learned from resolving problems in the previous step.
+- Search and pagination were implemented correctly using Sequelize operators and query parameters.
 
 ---
 
@@ -37,17 +37,17 @@ _Describe what parts of the project went smoothly or turned out well. This could
 _Explain what parts of the project were challenging or didn't go as planned. Did you hit bugs, confusion, or dead ends?_
 
 - Initial Sequelize model generation was incomplete:
-    - Some required properties (such as IDs and validations) were missing and had to be added manually.
-- GitHub Copilot added notEmpty validation but omitted notNull validation for required fields, which I added manually.
-- Validation was incorrectly added to first_published, even though it was not required.
-- Set up the Book Routes and Views - This step caused the most issues and required significant manual intervention:
-    - several routes were generated with incorrect paths,
-    - some Pug templates were not fully dynamic and required refactoring,
-    - validation logic was inconsistent or missing in some routes,
-    - variable mismatches in update_book.pug caused runtime errors,
-    - the method-override middleware was not added automatically and had to be manually configured in app.js.
+  - Some required properties (such as IDs and validations) were missing and had to be added manually.
+- GitHub Copilot added `notEmpty` validation but omitted `notNull` validation for required fields, which I added manually.
+- Validation was incorrectly added to the `first_published` field, even though it was not required.
+- The "Set up the Book Routes and Views" step caused the most issues and required significant manual intervention:
+  - Several routes were generated with incorrect paths.
+  - Some Pug templates were not fully dynamic and required refactoring.
+  - Validation logic was inconsistent or missing in certain routes.
+  - Variable mismatches in `update_book.pug` caused runtime errors.
+  - The `method-override` middleware was not added automatically and had to be manually configured in `app.js`.
+  - In contrast, the following nearly identical step ("Set up the Patron Routes and Views") was completed successfully.
 
-In contrast, the next nearly identical step (Set up the Patron Routes and Views) worked correctly, likely due to clearer instructions and lessons learned from fixing in this step.
 ---
 
 ## Pros / Cons of Using an AI Coding Assistant
@@ -56,18 +56,18 @@ In contrast, the next nearly identical step (Set up the Patron Routes and Views)
 
 _What were the benefits of using an AI assistant during this project?_
 
-- _(Benefit 1)_ Significantly sped up boilerplate creation (models, routes, views).
-- _(Benefit 2)_ Helpful for debugging, explaining errors, and validating design decisions.
-- _(Benefit 3)_ Reduced repetitive work and improved overall development speed.
+-  Significantly sped up boilerplate creation (models, routes, views).
+-  Helpful for debugging, explaining errors, and validating design decisions.
+- Reduced repetitive work and improved overall development speed.
 
 ### Cons
 
 _What were the downsides, limitations, or challenges when relying on AI during this project?_
 
-- _(Downside 1)_ AI sometimes misunderstood requirements or added unnecessary logic.
-- _(Downside 2)_ Generated code often required manual review and correction.
-- _(Downside 3)_ Validation and routing logic were not always aligned with project specifications.
-- _(Downside 4)_ Still required strong understanding of Express, Sequelize, and Pug to identify and fix issues.
+- AI sometimes misunderstood requirements or added unnecessary logic.
+- Generated code often required manual review and correction.
+- Validation and routing logic were not always aligned with project specifications.
+- Still required strong understanding of Express, Sequelize, and Pug to identify and fix issues.
 
 ## Reflection
 
