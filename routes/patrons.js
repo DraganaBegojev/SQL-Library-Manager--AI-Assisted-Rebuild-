@@ -22,7 +22,7 @@ router.post('/new', async (req, res, next) => {
   try {
     // determine next library_id
     const maxLibId = await Patron.max('library_id');
-    const nextLibraryId = (Number.isInteger(maxLibId) ? maxLibId : 0) + 1;
+    const nextLibraryId = maxLibId ? maxLibId + 1 : 1001;
 
     const payload = { 
         ...req.body, 

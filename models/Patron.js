@@ -40,13 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       library_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         unique: { args: true, msg: "Library ID must be unique" },
-        validate: {
-          notNull: { msg: "Library ID is required" },
-          notEmpty: { msg: "Library ID is required" },
-          isInt: { msg: "Library ID must be an integer" },
-        },
       },
     });
 
