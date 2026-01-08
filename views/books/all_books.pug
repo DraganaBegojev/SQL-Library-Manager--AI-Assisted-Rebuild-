@@ -4,14 +4,14 @@ block content
   h1 Books
   .create-search-container
     a.button(href='/books/new') Create New Book
-    form(method='get')
+    form(method='get', style='display: flex; align-items: center; gap: 6px;')
      input(
         type='search', 
         id='search', 
         name='search', 
         placeholder='Search...'
         )
-    button.search-btn(type='submit') Search
+     button.search-btn(type='submit') Search
 
   table
     thead
