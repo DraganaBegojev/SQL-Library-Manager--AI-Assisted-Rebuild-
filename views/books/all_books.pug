@@ -5,13 +5,14 @@ block content
   .create-search-container
     a.button(href='/books/new') Create New Book
     form(method='get', style='display: flex; align-items: center; gap: 6px;')
-     input(
-        type='search', 
-        id='search', 
-        name='search', 
-        placeholder='Search...'
-        )
-     button.search-btn(type='submit') Search
+      input(
+        type='search',
+        id='search',
+        name='search',
+        placeholder='Search...',
+        value=(typeof search !== 'undefined' ? search : '')
+      )
+      button.search-btn(type='submit') Search
 
   table
     thead
@@ -21,10 +22,29 @@ block content
         th Genre
         th Year Released
     tbody
+      if books && books.length
         each book in books
-         tr
-            td 
-                a(href=`/books/${book.id}`)= book.title
+          tr
+            td
+              a(href=`/books/${book.id}`)= book.title
             td= book.author
             td= book.genre
             td= book.first_published
+      else
+        tr
+          td(colspan='4') No results found
+
+  if typeof totalPages !== 'undefined' && totalPages > 1
+    nav.pagination
+      ul
+        - const base = (search ? `?search=${encodeURIComponent(search)}&` : '?');
+        li
+          - const prevPage = page - 1;
+          a(href=`${base}page=${Math.max(1, prevPage)}`) Previous
+        - for (let i = 1; i <= totalPages; i++) {
+          li(class=(i === page ? 'active' : ''))
+            a(href=`${base}page=${i}`)= i
+        - }
+        li
+          - const nextPage = page + 1;
+          a(href=`${base}page=${Math.min(totalPages, nextPage)}`) Next

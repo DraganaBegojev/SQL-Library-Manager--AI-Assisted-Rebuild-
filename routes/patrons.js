@@ -1,12 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const { Patron } = require('../models');
+const Sequelize = require('sequelize');
+const { Op } = Sequelize;
 
-// GET /patrons - list all patrons
+// GET /patrons - list all patrons with search + pagination
 router.get('/', async (req, res, next) => {
   try {
-    const patrons = await Patron.findAll();
-    res.render('patrons/all_patrons', { title: 'Patrons', patrons });
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = 10;
+    const offset = (page - 1) * limit;
+    const search = (req.query.search || '').trim();
+
+    const where = {};
+    if (search) {
+      const q = `%${search.toLowerCase()}%`;
+      where[Op.or] = [
+        Sequelize.where(Sequelize.fn('lower', Sequelize.col('first_name')), { [Op.like]: q }),
+        Sequelize.where(Sequelize.fn('lower', Sequelize.col('last_name')), { [Op.like]: q }),
+        Sequelize.where(Sequelize.fn('lower', Sequelize.col('address')), { [Op.like]: q }),
+        Sequelize.where(Sequelize.fn('lower', Sequelize.col('email')), { [Op.like]: q }),
+        Sequelize.where(Sequelize.fn('lower', Sequelize.cast(Sequelize.col('zip_code'), 'TEXT')), { [Op.like]: q }),
+        Sequelize.where(Sequelize.fn('lower', Sequelize.cast(Sequelize.col('library_id'), 'TEXT')), { [Op.like]: q }),
+      ];
+    }
+
+    const total = await Patron.count({ where });
+    const totalPages = Math.max(Math.ceil(total / limit), 1);
+
+    const patrons = await Patron.findAll({ where, limit, offset });
+
+    res.render('patrons/all_patrons', {
+      title: 'Patrons',
+      patrons,
+      page,
+      totalPages,
+      search,
+    });
   } catch (err) {
     next(err);
   }
