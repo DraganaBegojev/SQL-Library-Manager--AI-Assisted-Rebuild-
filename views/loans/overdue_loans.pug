@@ -1,0 +1,55 @@
+extends ../layout
+
+block content
+  h1 Overdue Loans
+  p
+    a.button(href='/loans/new') Create New Loan
+
+  p.filters
+    strong Filters: 
+    a(href='/loans') All
+    |  | 
+    a(href='/loans/overdue') Overdue
+    |  | 
+    a(href='/loans/active') Active
+
+  table
+    thead
+      tr
+        th Book
+        th Patron
+        th Loaned on
+        th Return by
+        th Returned on
+        th Action
+    tbody
+      if loans && loans.length
+        each loan in loans
+          tr
+            td
+              a(href=`/books/${loan.Book.id}`)= loan.Book.title
+            td
+              a(href=`/patrons/${loan.Patron.id}`)= loan.Patron.first_name + ' ' + loan.Patron.last_name
+            td= loan.loaned_on
+            td= loan.return_by
+            td= loan.returned_on ? loan.returned_on : ''
+            td
+              a.button(href=`/loans/${loan.id}/return`) Return Book
+      else
+        tr
+          td(colspan='6') No overdue loans found
+
+  if typeof totalPages !== 'undefined' && totalPages > 1
+    nav.pagination
+      ul
+        - const base = '?';
+        li
+          - const prevPage = page - 1;
+          a(href=`${base}page=${Math.max(1, prevPage)}`) Previous
+        - for (let i = 1; i <= totalPages; i++) {
+          li(class=(i === page ? 'active' : ''))
+            a(href=`${base}page=${i}`)= i
+        - }
+        li
+          - const nextPage = page + 1;
+          a(href=`${base}page=${Math.min(totalPages, nextPage)}`) Next
