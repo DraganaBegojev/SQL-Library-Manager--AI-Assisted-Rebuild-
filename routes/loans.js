@@ -40,22 +40,40 @@ router.get('/', async (req, res, next) => {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = 10;
     const offset = (page - 1) * limit;
+    const search = (req.query.search || '').trim();
 
-    const total = await Loan.count();
-    const totalPages = Math.max(Math.ceil(total / limit), 1);
+    const where = search
+    ? {
+        [Op.or]: [
+            { '$Book.title$': { [Op.like]: `%${search}%` } },
+            { '$Patron.first_name$': { [Op.like]: `%${search}%` } },
+            { '$Patron.last_name$': { [Op.like]: `%${search}%` } },
+        ],
+        }
+    : {};
 
-    const loans = await Loan.findAll({
-      include: [Book, Patron],
+    const result = await Loan.findAndCountAll({
+      where,
+      include: [
+        { model: Book, required: false },
+        { model: Patron, required: false }
+    ],
       limit,
       offset,
-      order: [['loaned_on', 'DESC']]
+      order: [['loaned_on', 'DESC']],
+      distinct: true
     });
+
+    const total = result.count;
+    const loans = result.rows;
+    const totalPages = Math.max(Math.ceil(total / limit), 1);
 
     res.render('loans/all_loans', {
       title: 'All Loans',
       loans,
       page,
-      totalPages
+      totalPages,
+      search
     });
   } catch (err) {
     next(err);

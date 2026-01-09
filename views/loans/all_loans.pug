@@ -4,6 +4,15 @@ block content
   h1 All Loans
   .create-search-container
     a.button(href='/loans/new') Create New Loan
+    form(method='get', style='display: flex; align-items: center; gap: 6px;')
+      input(
+        type='search',
+        id='search',
+        name='search',
+        placeholder='Search...',
+        value=(typeof search !== 'undefined' ? search : '')
+      )
+      button.search-btn(type='submit') Search
 
   p.filters
     strong Filters: 
@@ -38,12 +47,12 @@ block content
                 a.button(href=`/loans/${loan.id}/return`) Return Book
       else
         tr
-          td(colspan='6') No loans found
+          td(colspan='6') No results found
 
   if typeof totalPages !== 'undefined' && totalPages > 1
     nav.pagination
       ul
-        - const base = '?';
+        - const base = (search ? `?search=${encodeURIComponent(search)}&` : '?');
         li
           - const prevPage = page - 1;
           a(href=`${base}page=${Math.max(1, prevPage)}`) Previous
