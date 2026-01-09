@@ -76,7 +76,14 @@ router.post('/new', async (req, res, next) => {
 // GET /patrons/:id - patron detail
 router.get('/:id', async (req, res, next) => {
   try {
-    const patron = await Patron.findByPk(req.params.id);
+    const { Loan, Book } = require('../models');
+    const patron = await Patron.findByPk(req.params.id, {
+      include: [{
+        model: Loan,
+        include: [{ model: Book }],
+        order: [['loaned_on', 'DESC']]
+      }]
+    });
     if (patron) {
       res.render('patrons/update_patron', { title: `Patron: ${patron.first_name} ${patron.last_name}`, patron });
     } else {
@@ -92,6 +99,7 @@ router.get('/:id', async (req, res, next) => {
 // PUT /patrons/:id - update patron
 router.put('/:id', async (req, res, next) => {
   try {
+    const { Loan, Book } = require('../models');
     const patron = await Patron.findByPk(req.params.id);
     if (!patron) {
       const err = new Error('Patron not found');
@@ -103,7 +111,14 @@ router.put('/:id', async (req, res, next) => {
     res.redirect('/patrons');
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
-      const patron = await Patron.findByPk(req.params.id);
+      const { Loan, Book } = require('../models');
+      const patron = await Patron.findByPk(req.params.id, {
+        include: [{
+          model: Loan,
+          include: [{ model: Book }],
+          order: [['loaned_on', 'DESC']]
+        }]
+      });
       res.render('patrons/update_patron', {
         title: `Patron: ${patron.first_name} ${patron.last_name}`,
         patron,
