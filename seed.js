@@ -47,10 +47,8 @@ async function seed() {
     ]);
 
     console.log('✅ Sample data added successfully!');
-    process.exit();
   } catch (err) {
     console.error(err);
-    process.exit(1);
   }
 }
 
